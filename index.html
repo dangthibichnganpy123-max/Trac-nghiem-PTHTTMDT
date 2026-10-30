@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Trắc Nghiệm</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 20px auto; padding: 20px; background-color: #f9f9f9; }
+        .question { background: white; margin-bottom: 20px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .options label { display: block; margin: 10px 0; cursor: pointer; }
+        #submit-btn { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+        #submit-btn:hover { background-color: #0056b3; }
+        #result { font-weight: bold; margin-top: 20px; color: #28a745; font-size: 18px; }
+    </style>
+</head>
+<body>
+
+    <h2>Bài Thi Trắc Nghiệm PTHTTMDT</h2>
+    <div id="quiz-container"></div>
+    <button id="submit-btn">Nộp bài</button>
+    <div id="result"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "Thủ đô của Việt Nam là gì?",
+                options: ["Hà Nội", "TP. Hồ Chí Minh", "Đà Nẵng", "Cần Thơ"],
+                answer: "Hà Nội"
+            },
+            {
+                question: "HTML là viết tắt của gì?",
+                options: ["Hyper Text Markup Language", "Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Tool Multi Language"],
+                answer: "Hyper Text Markup Language"
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz-container');
+
+        questions.forEach((q, index) => {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            
+            let optionsHtml = '';
+            q.options.forEach(opt => {
+                optionsHtml += `<label><input type="radio" name="q${index}" value="${opt}"> ${opt}</label>`;
+            });
+
+            questionDiv.innerHTML = `
+                <h3>Câu ${index + 1}: ${q.question}</h3>
+                <div class="options">${optionsHtml}</div>
+            `;
+            quizContainer.appendChild(questionDiv);
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', () => {
+            let score = 0;
+            questions.forEach((q, index) => {
+                const selected = document.querySelector(`input[name="q${index}"]:checked`);
+                if (selected && selected.value === q.answer) {
+                    score++;
+                }
+            });
+            document.getElementById('result').innerText = `Bạn trả lời đúng ${score}/${questions.length} câu!`;
+        });
+    </script>
+</body>
+</html>
